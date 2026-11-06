@@ -5,11 +5,30 @@
 #include "Ball.h"
 
 
+void handleWallCollison(Ball& ball, int width, int height){
+    if(ball.cx - ball.radius <= 0){
+        ball.cx = ball.radius;
+        ball.velocityX *= -0.95;
+    }
+    if(ball.cx + ball.radius >= width){
+        ball.cx = width - ball.radius;
+        ball.velocityX *= -0.95;
+    }
+    if(ball.cy - ball.radius <= 0){
+        ball.cy = ball.radius;
+        ball.velocityY *= -0.95;
+    }
+    if(ball.cy + ball.radius >= height){
+        ball.cy = height - ball.radius;
+        ball.velocityY *= -0.95;
+    }
+}
+
 int main(int, char**){
     SDL_Init(SDL_INIT_VIDEO);
     Window PhysicsWindow;
 
-    Ball ball({50, 50}, 25);
+    Ball ball({50, 50}, 25, 1000, 25, 20);
 
     SDL_Renderer* renderer = SDL_CreateRenderer(
         PhysicsWindow.SDLWindow,
@@ -37,6 +56,7 @@ int main(int, char**){
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         ball.Update(dt);
+        handleWallCollison(ball, 1200, 800);
         ball.Render(renderer);
         SDL_RenderPresent(renderer);
     }

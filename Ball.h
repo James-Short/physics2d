@@ -8,15 +8,26 @@ class Ball{
         float cx, cy;
         int radius;
         int segments = 26;
+        float velocityX;
+        float velocityY;
+        float gravity;
+
         std::vector<float> color = {255.0, 0.0, 0.0, 1.0};
-        Ball(std::vector<int> center, int radius){
+        Ball(std::vector<int> center, int radius, float gravity, float velocityX,
+             float velocityY){
             cx = center[0], cy = center[1];
             this->radius = radius;
             this->segments = segments;
+            this->gravity = gravity;
+            this->velocityX = velocityX;
+            this->velocityY = velocityY;
         }
 
         void Update(float dt){
-            cy += 200.0f * dt;
+            cx += velocityX * dt;
+            cy += velocityY * dt;
+
+            velocityY += gravity * dt;
         }
 
         void Render(SDL_Renderer* renderer){
