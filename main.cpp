@@ -29,6 +29,12 @@ int main(int, char**){
     Window PhysicsWindow;
 
     Ball ball({50, 50}, 25, 1000, 25, 20);
+    std::vector<Ball> balls = {
+        Ball({50, 50}, 25, 1000, 25, 20),
+        Ball({80, 50}, 25, 1000, 25, 20),
+        Ball({100, 50}, 25, 1000, 25, 20),
+        Ball({150, 50}, 25, 1000, 25, 20),
+    };
 
     SDL_Renderer* renderer = SDL_CreateRenderer(
         PhysicsWindow.SDLWindow,
@@ -55,9 +61,11 @@ int main(int, char**){
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        ball.Update(dt);
-        handleWallCollison(ball, 1200, 800);
-        ball.Render(renderer);
+        for(int i = 0; i < balls.size(); i++){
+            balls[i].Update(dt);
+            handleWallCollison(balls[i], 1200, 800);
+            balls[i].Render(renderer);
+        }
         SDL_RenderPresent(renderer);
     }
 
